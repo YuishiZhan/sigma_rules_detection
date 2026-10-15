@@ -1,0 +1,20 @@
+title: Port Scan Detection
+id: 2
+status: experimental
+description: Обнаружение сканирования портов по множеству уникальных портов с одного IP
+author: YuishiZhan
+date: 2026/10/08
+
+logsource:
+    product: linux
+    service: syslog
+
+detection:
+    selection:
+        message: "Connection attempt"
+    condition: selection | count(destination_port) by source_ip > 5
+    timeframe: 5m
+
+falsepositives:
+    - Легитимное сканирование сети администратором
+level: medium
